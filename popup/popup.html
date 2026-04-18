@@ -1,0 +1,38 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <link rel="stylesheet" href="popup.css">
+    <title>Saucebook</title>
+</head>
+
+<body>
+    <header class="fve-header">
+        <h1>Saucebook - Vote enhancer</h1>
+        <span class="fve-version">v1.0</span>
+    </header>
+    <!-- stato auth google -->
+    <section class="fve-auth">
+        <div id="auth-status">Loading...</div>
+        <button id="btn-auth">Link google</button>
+        <button id="btn-logout" hidden>Disconnect</button>
+    </section>
+
+    <!-- bozze salvate -->
+    <section class="fve-drafts">
+        <h2>Drafts saved</h2>
+        <div id="btn-logout" hidden>No drafts</div>
+    </section>
+
+    <!-- link rapidi -->
+    <footer class="fve-footer">
+        <a id="link-drive" href="#" target="_blank">Open Drive</a>
+        <a id="link-notebook" href="#" target="_blank">NotebookLM</a>
+        <a href="../options/options.html" target="_blank">Settings</a>
+    </footer>
+
+    <script src="popup.js"></script>
+</body>
+
+</html>
