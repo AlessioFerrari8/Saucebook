@@ -1,0 +1,67 @@
+body {
+  width: 320px;
+  margin: 0;
+  font-family: system-ui;
+  background: #0f172a;
+  color: #e5e7eb;
+}
+
+/* HEADER */
+.fve-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 12px;
+  font-size: 14px;
+  border-bottom: 1px solid #1f2937;
+}
+
+/* SEZIONI */
+section {
+  padding: 12px;
+  border-bottom: 1px solid #1f2937;
+}
+
+/* TITOLI */
+h2 {
+  font-size: 13px;
+  margin-bottom: 8px;
+  color: #9ca3af;
+}
+
+/* BOTTONI */
+button {
+  background: #1f2937;
+  border: 1px solid #374151;
+  color: white;
+  padding: 6px 10px;
+  border-radius: 6px;
+  cursor: pointer;
+  font-size: 12px;
+}
+
+button:hover {
+  background: #374151;
+}
+
+/* STATUS */
+.connected {
+  color: #22c55e;
+}
+
+.disconnected {
+  color: #ef4444;
+}
+
+/* FOOTER */
+.fve-footer {
+  display: flex;
+  justify-content: space-around;
+  padding: 10px;
+  font-size: 12px;
+}
+
+.fve-footer a {
+  color: #6366f1;
+  text-decoration: none;
+}
