@@ -27,6 +27,7 @@
                 "https://flavortown.hackclub.com/*"
             ],
             "js": [
+                "utils/storage.js",
                 "content/content.js"
             ],
             "css": [
