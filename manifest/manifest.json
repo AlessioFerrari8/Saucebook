@@ -1,0 +1,51 @@
+{
+    "manifest_version": 3,
+    "name": "Saucebook",
+    "version": "1.0.0",
+    "description": "Improves voting on Flavortown + sync with NotebookLM via Drive",
+    "permissions": [
+        "storage",
+        "identity",
+        "activeTab"
+    ],
+    "host_permissions": [
+        "https://flavortown.hackclub.com/*",
+        "https://www.googleapis.com/*"
+    ],
+    "oauth2": {
+        "client_id": "1042505452804-p5r6t7tf3rl98u6j1fvrbojujd905r3t.apps.googleusercontent.com",
+        "scopes": [
+            "https://www.googleapis.com/auth/drive.file"
+        ]
+    },
+    "background": {
+        "service_worker": "background/service-worker.js"
+    },
+    "content_scripts": [
+        {
+            "matches": [
+                "https://flavortown.hackclub.com/*"
+            ],
+            "js": [
+                "content/content.js"
+            ],
+            "css": [
+                "content/content.css"
+            ],
+            "run_at": "document_idle"
+        }
+    ],
+    "action": {
+        "default_popup": "popup/popup.html",
+        "default_icon": {
+            "16": "icons/icon16.png",
+            "48": "icons/icon48.png"
+        }
+    },
+    "options_page": "options/options.html",
+    "icons": {
+        "16": "icons/icon16.png",
+        "48": "icons/icon48.png",
+        "128": "icons/icon128.png"
+    }
+}
