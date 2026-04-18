@@ -1,0 +1,23 @@
+# Build output (generato da scripts/build.js)
+build/
+
+# Node
+node_modules/
+package-lock.json
+
+# Secrets (MAI committare questi!)
+secrets.js
+config.local.js
+*.env
+.env
+
+# OS
+.DS_Store
+Thumbs.db
+
+# Editor
+.vscode/settings.json
+.idea/
+
+# Web-ext artifacts
+web-ext-artifacts/

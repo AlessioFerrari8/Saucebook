@@ -1,0 +1,24 @@
+{
+  "name": "saucebook",
+  "version": "1.0.0",
+  "description": "A repo for Flavortown to help you manage all your votes and reviews and send them to NotebookLM",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/AlessioFerrari8/Saucebook.git"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "type": "commonjs",
+  "bugs": {
+    "url": "https://github.com/AlessioFerrari8/Saucebook/issues"
+  },
+  "homepage": "https://github.com/AlessioFerrari8/Saucebook#readme",
+  "devDependencies": {
+    "web-ext": "^10.1.0"
+  }
+}
