@@ -3,6 +3,7 @@
     "name": "Saucebook",
     "version": "1.0.0",
     "description": "Improves voting on Flavortown + sync with NotebookLM via Drive",
+    "key": "nepmecbchhhgilhhkmmcpapbmnnecpde",
     "permissions": [
         "storage",
         "identity",
