@@ -23,7 +23,85 @@ function enhanceVoteUI() {
         // per ogni categoria chiamo l'imrpove delle star
         enhanceStarRating(category, header);
     })
+
+    // dopo aver costruito UI
+    // carico bozza
+    loadDraft()
 }
+
+async function loadDraft() {
+    const projectId = getProjectId()
+    // "caso base"
+    if (projectId === 'unknown') return;
+
+    const result = await chrome.storage.local.get('fve_drafts')
+    const drafts = result['fve_drafts'] || {}
+    const draft = result[projectId]
+
+    // nessuna bozza
+    if (!draft) return;
+
+    // restore
+    restoreRatings(draft.ratings)
+    restoreFeedback(draft.feedback)
+
+    // avviso utente
+    showRestoredIndicator()
+
+}
+
+
+// rimette i rating
+function restoreRatings(ratings) {
+    if (!ratings) return;
+
+    // 4 campi
+    const fieldMap = {
+        originality: 'originality_score',
+        technicality: 'technical_score',
+        usability: 'usability_score',
+        storytelling: 'storytelling_score'
+    }
+
+    // aggiungo
+    Object.entries(fieldMap).forEach(([key, fieldName]) => {
+        const value = ratings[key];
+        if (!value) return;
+
+        const input = document.querySelector(
+            `input[name="vote[${fieldName}]"][value="${value}"]`
+        )
+        if (input) input.click()
+    })
+}
+
+
+// rimette il tsto nella textarea
+function restoreFeedback(feedback) {
+    if (!feedback) return;
+
+    // 4 campi
+    const textarea = document.querySelector('textarea[name="vote[reason]"]')
+    if (textarea) textarea.value = feedback;
+}
+
+
+
+// restore indicator
+function showRestoredIndicator() {
+    let indicator = document.querySelector('.fve-saved');
+    if (!indicator) {
+        indicator = document.createElement('div');
+        indicator.className = 'fve-saved';
+        document.querySelector('.vote-form').prepend(indicator);
+    }
+    indicator.textContent = 'Draft restored';
+    indicator.style.opacity = '1';
+    setTimeout(() => indicator.style.opacity = '0', 3000);
+}
+
+
+
 
 function enhanceStarRating(container, category) {
     const originalInput = container.querySelector('input, select');
@@ -36,8 +114,8 @@ function enhanceStarRating(container, category) {
         star.className = 'fve-star'
         star.dataset.value = i;
         star.textContent = '⭐'
-        star.addEventListener('click', () => setRating(category, i));
-        star.addEventListener('mouseenter', () => previewRating(i));
+        star.addEventListener('click', () => setRating(container, category, i));
+        star.addEventListener('mouseenter', () => previewRating(container, i));
         wrapper.appendChild(star);
     }
 
@@ -47,6 +125,12 @@ function enhanceStarRating(container, category) {
     label.className = 'fve-score-label';
     label.textContent = '-';
     wrapper.appendChild(label)
+
+    wrapper.addEventListener('mouseleave', () => {
+        const key = category.toLowerCase();
+        updateStarDisplay(wrapper, state[key]);
+    });
+
 
     // AI
     // const aiHint = document.createElement('div');
@@ -105,18 +189,18 @@ function getProjectId() {
     try {
         const tokenInput = document.querySelector('input[name="suggestion_token"]');
         if (!tokenInput) return 'unknown';
-        
+
         // Il token è base64 prima del "--"
         const base64 = tokenInput.value.split('--')[0];
         const decoded = JSON.parse(atob(base64));
-        
+
         // decoded contiene: { user_id, ship_event_id, ua, expires_at }
         return decoded.ship_event_id.toString();
     } catch (error) {
         console.warn("FVE: impossible reading project ID", error)
         return 'unknown';
     }
-    
+
 
 }
 
@@ -137,13 +221,13 @@ function showSavedIndicator() {
 let autoSaveTimer;
 
 function triggerAutoSave() {
-  clearTimeout(autoSaveTimer);
-  autoSaveTimer = setTimeout(() => {
-    const projectId = getProjectId();
-    const data = collectVoteData(); // usa collectVoteData che già esiste
-    saveDraft(projectId, data, data.feedback);
-    showSavedIndicator();
-  }, 1000);
+    clearTimeout(autoSaveTimer);
+    autoSaveTimer = setTimeout(() => {
+        const projectId = getProjectId();
+        const data = collectVoteData(); // usa collectVoteData che già esiste
+        saveDraft(projectId, data, data.feedback);
+        showSavedIndicator();
+    }, 1000);
 }
 
 // DRAFT manager -> salvo/carico bozze automaticamente
@@ -153,3 +237,59 @@ function triggerAutoSave() {
 
 
 // export handler
+
+function exportToDrive() {
+    chrome.runtime.sendMessage({ type: 'UPLOAD_VOTE', payload: collectVoteData() })
+}
+
+
+function setRating(container, category, value) {
+    // aggiorno state con nuovo valore
+    const key = category.toLowerCase();
+    state[key] = value;
+
+    // radio button originale
+    const fieldMap = {
+        originality: 'originality_score',
+        technicality: 'technical_score',
+        usability: 'usability_score',
+        storytelling: 'storytelling_score'
+    }
+
+    // field con click
+    const fieldName = fieldMap[key];
+    const input = document.querySelector(
+        `input[name="vote[${fieldName}]"][value="${value}"]`
+    );
+    if (input) input.click();
+
+    // aggiorno stelle
+    updateStarDisplay(container, value);
+
+    // salvo e aggiorno preview
+    triggerAutoSave();
+    updatePreview();
+}
+
+
+// chiamata a hover di una stella
+function previewRating(container, value) {
+    // coloro temporaneamente le stelle fino al valore su 
+    // cui passo con il mouse
+    updateStarDisplay(container, value)
+}
+
+function updateStarDisplay(container, value) {
+    // prendo tutte le stelle
+    const stars = container.querySelectorAll('.fve-star')
+
+    // for each epr ogni stella
+    stars.forEach(star => {
+        if (parseInt(star.dataset.value) <= value) {
+            // aggiungo classe 
+            star.classList.add('fve-star--active');
+        } else {
+            star.classList.remove('fve-star--active');
+        }
+    })
+}
