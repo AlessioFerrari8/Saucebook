@@ -1,7 +1,31 @@
 // apertura popup
 document.addEventListener('DOMContentLoaded', () => {
-  checkAuthStatus();
-  loadDraftsList();
+    checkAuthStatus();
+    loadDraftsList();
+
+    // bttone di auth
+    document.getElementById('btn-auth').addEventListener('click', () => {
+        chrome.identity.getAuthToken({ interactive: true }, (token) => {
+            if (token) showLoggedIn();
+        });
+    });
+
+
+    // bottone di logout
+    // stesso procedimento sopra
+    document.getElementById('btn-logout').addEventListener('click', () => {
+        chrome.identity.getAuthToken({ interactive: false }, (token) => {
+            if (!token) return;
+            // revoco token
+            fetch(`https://accounts.google.com/o/oauth2/revoke?token=${token}`)
+                .finally(() => {
+                    chrome.identity.removeCachedAuthToken({ token })
+                    showLoggedOut() // mostro logged out
+                })
+        })
+
+    })
+
 });
 
 async function checkAuthStatus() {
@@ -30,29 +54,6 @@ function showLoggedOut() {
     document.getElementById('btn-auth').hidden = false;
     document.getElementById('btn-logout').hidden = true;
 }
-
-// bttone di auth
-document.getElementById('btn-auth').addEventListener('click', () => {
-    chrome.identity.getAuthToken({ interactive: true }, (token) => {
-        if (token) showLoggedIn();
-    });
-});
-
-
-// bottone di logout
-// stesso procedimento sopra
-document.getElementById('btn-logout').addEventListener('click', () => {
-    chrome.identity.getAuthToken({ interactive: false }, (token) => {
-        if (!token) return;
-        // revoco token
-        fetch(`https://accounts.google.com/o/oauth2/revoke?token=${token}`) 
-            .finally(() => {
-                chrome.identity.removeCachedAuthToken({ token })
-                showLoggedOut() // mostro logged out
-            })
-    })
-
-})
 
 
 // mostro bozze salvate
@@ -104,8 +105,8 @@ async function deleteDraftFromPopup(projectId) {
 // link rapidi
 // TODO: agggiornare
 document.getElementById('link-drive').href =
-  'https://drive.google.com/drive/folders/';  
+    'https://drive.google.com/drive/folders/';
 document.getElementById('link-notebook').href =
-  'https://notebooklm.google.com/';
+    'https://notebooklm.google.com/';
 
 
