@@ -251,7 +251,7 @@ function setRating(container, category, value) {
     // radio button originale
     const fieldMap = {
         originality: 'originality_score',
-        technicality: 'technicality_score',
+        technicality: 'technical_score',
         usability: 'usability_score',
         storytelling: 'storytelling_score'
     }
