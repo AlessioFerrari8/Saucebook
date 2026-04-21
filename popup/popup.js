@@ -62,6 +62,8 @@ async function loadDraftsList() {
     const drafts = result['fve_drafts'] || {};
     const list = document.getElementById('drafts-list');
 
+    list.hidden = false; // Mostra l'elemento
+
     const keys = Object.keys(drafts)
     if (keys.length === 0) {
         list.textContent = 'No drafts saved'
