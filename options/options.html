@@ -73,9 +73,9 @@
                 <div class="section-block">
                     <h3>Saucebook Folder</h3>
                     <div class="info-box">
-                        <p><strong>Status:</strong> <span id="drive-status">Loading...</span></p>
+                        <p><strong>Status:</strong> <code id="drive-status">Loading...</code></p>
                         <p><strong>Folder ID:</strong> <code id="drive-folder-id">-</code></p>
-                        <p><strong>Files on Drive:</strong> <span id="drive-file-count">-</span></p>
+                        <p><strong>Files on Drive:</strong> <code id="drive-file-count">-</code></p>
                     </div>
                 </div>
 
@@ -99,17 +99,16 @@
                 <div class="section-block">
                     <h3>Authentication Status</h3>
                     <div class="info-box">
-                        <p><strong>Status:</strong> <span id="auth-status">Loading...</span></p>
-                        <p><strong>Email:</strong> <span id="auth-email">-</span></p>
-                        <p><strong>Linked Since:</strong> <span id="auth-since">-</span></p>
+                        <p><strong>Status:</strong> <code id="auth-status">Loading...</code></p>
+                        <p><strong>Email:</strong> <code id="auth-email">-</code></p>
+                        <p><strong>Linked Since:</strong> <code id="auth-since">-</code></p>
                     </div>
                 </div>
 
                 <div class="section-block">
                     <h3>Actions</h3>
-                    <button class="btn btn-danger" id="btn-disconnect">
-                        Disconnect Google
-                    </button>
+                    <button class="btn btn-primary" id="btn-connect" style="display: none;">Connect Google</button>
+                    <button class="btn btn-danger" id="btn-disconnect" style="display: none;">Disconnect Google</button>
                 </div>
             </section>
 

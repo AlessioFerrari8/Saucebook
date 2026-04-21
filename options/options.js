@@ -84,6 +84,23 @@ async function loadDraftsList() {
         `;
         list.appendChild(item)
     })
+
+    // Attach delete listeners
+    list.querySelectorAll('.btn-delete-draft').forEach(btn => {
+        btn.addEventListener('click', async (e) => {
+            const id = e.target.dataset.id;
+            if (!confirm('Delete this draft?')) return;
+            
+            const result = await chrome.storage.local.get('fve_drafts');
+            const drafts = result['fve_drafts'] || {};
+            delete drafts[id];
+            await chrome.storage.local.set({ 'fve_drafts': drafts });
+            
+            await loadDraftsList();
+            await loadDashboard();
+            showToast('Draft deleted', 'success');
+        });
+    });
 }
 
 
@@ -148,16 +165,17 @@ loadDriveInfo()
 
 async function loadAuthStatus() {
     chrome.identity.getAuthToken({ interactive: false }, (token) => {
-        const status = token ? 'Connected' : 'Not connected'
+        const status = token ? 'Connected' : 'Not connected';
         document.getElementById('auth-status').textContent = status;
-
-        // placeholder x email e date
-        document.getElementById('auth-email').textContent =
-            token ? 'logged-in' : '-'
-        document.getElementById('auth-since').textContent = '-'
-    })
+        
+        // Mostra connect o disconnect in base allo stato
+        document.getElementById('btn-connect').style.display = token ? 'none' : 'inline-block';
+        document.getElementById('btn-disconnect').style.display = token ? 'inline-block' : 'none';
+        
+        document.getElementById('auth-email').textContent = token ? 'logged-in' : '-';
+        document.getElementById('auth-since').textContent = '-';
+    });
 }
-
 
 // chiamo al caricamento
 loadAuthStatus()
@@ -206,3 +224,14 @@ document.getElementById('btn-disconnect').addEventListener('click', async () => 
             })
     })
 })
+
+
+// Connect Google button handler
+document.getElementById('btn-connect').addEventListener('click', async () => {
+    chrome.identity.getAuthToken({ interactive: true }, (token) => {
+        if (token) {
+            loadAuthStatus();
+            showToast('Connected to Google', 'success');
+        }
+    });
+});
