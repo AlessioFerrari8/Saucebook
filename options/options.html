@@ -1,0 +1,151 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="options.css">
+    <title>Saucebook - Settings</title>
+</head>
+
+<body>
+    <header class="options-header">
+        <h1>Saucebook Settings</h1>
+        <p class="subtitle">Manage drafts, storage and preferences</p>
+    </header>
+    <div class="options-container">
+        <!-- sidebar -->
+        <aside class="options-sidebar">
+            <nav class="options-tabs">
+                <button class="tab-btn active" data-tab="dashboard">Dashboard</button>
+                <button class="tab-btn" data-tab="storage">Storage</button>
+                <button class="tab-btn" data-tab="drive">Drive</button>
+                <button class="tab-btn" data-tab="account">Account</button>
+                <button class="tab-btn" data-tab="about">About</button>
+            </nav>
+        </aside>
+
+        <!-- main content -->
+        <main class="options">
+            <!-- DASHBOARD -->
+            <section class="tab-content active" id="dashboard">
+                <h2>Dashboard</h2>
+                <div class="dashboard-grid">
+                    <div class="stat-card">
+                        <span class="stat-label">Saved Drafts</span>
+                        <span class="stat-value" id="stat-drafts">-</span>
+                    </div>
+                    <div class="stat-card">
+                        <span class="stat-label">Average Score</span>
+                        <span class="stat-value" id="stat-average">-</span>
+                    </div>
+                    <div class="stat-card">
+                        <span class="stat-label">Last Draft</span>
+                        <span class="stat-value" id="stat-latest">-</span>
+                    </div>
+                </div>
+            </section>
+            <!-- STORAGE -->
+            <section class="tab-content" id="storage">
+                <h2>Storage Management</h2>
+
+                <div class="section-block">
+                    <h3>All Drafts</h3>
+                    <div class="drafts-list" id="drafts-list">
+                        <p class="empty-state">No drafts saved</p>
+                    </div>
+                </div>
+
+                <div class="section-block">
+                    <h3>Actions</h3>
+
+                    <div class="action-buttons">
+                        <button class="btn btn-secondary" id="btn-export">Download Backup JSON</button>
+                        <button class="btn btn-danger" id="btn-clear-all">Delete All</button>
+                    </div>
+                </div>
+            </section>
+
+            <!-- DRIVE -->
+            <section class="tab-content" id="drive">
+                <h2>Google Drive Info</h2>
+
+                <div class="section-block">
+                    <h3>Saucebook Folder</h3>
+                    <div class="info-box">
+                        <p><strong>Status:</strong> <span id="drive-status">Loading...</span></p>
+                        <p><strong>Folder ID:</strong> <code id="drive-folder-id">-</code></p>
+                        <p><strong>Files on Drive:</strong> <span id="drive-file-count">-</span></p>
+                    </div>
+                </div>
+
+                <div class="section-block">
+                    <h3>Actions</h3>
+                    <div class="action-buttons">
+                        <button class="btn btn-primary" id="btn-open-drive">
+                            Open Drive Folder
+                        </button>
+                        <button class="btn btn-secondary" id="btn-reset-folder">
+                            Reset Folder
+                        </button>
+                    </div>
+                </div>
+            </section>
+
+            <!-- ACCOUNT -->
+            <section class="tab-content" id="account">
+                <h2>Google Account</h2>
+
+                <div class="section-block">
+                    <h3>Authentication Status</h3>
+                    <div class="info-box">
+                        <p><strong>Status:</strong> <span id="auth-status">Loading...</span></p>
+                        <p><strong>Email:</strong> <span id="auth-email">-</span></p>
+                        <p><strong>Linked Since:</strong> <span id="auth-since">-</span></p>
+                    </div>
+                </div>
+
+                <div class="section-block">
+                    <h3>Actions</h3>
+                    <button class="btn btn-danger" id="btn-disconnect">
+                        Disconnect Google
+                    </button>
+                </div>
+            </section>
+
+            <!-- TAB 5: ABOUT -->
+            <section class="tab-content" id="about">
+                <h2>About</h2>
+
+                <div class="section-block">
+                    <h3>Saucebook v1.0</h3>
+                    <p class="about-text">
+                        An extension to improve voting on Flavortown and sync votes with NotebookLM via Google Drive.
+                    </p>
+                </div>
+
+                <div class="section-block">
+                    <h3>Useful Links</h3>
+                    <div class="links-list">
+                        <a href="https://github.com/AlessioFerrari8/Saucebook" target="_blank" class="link-btn">
+                            GitHub Repository
+                        </a>
+                        <a href="https://flavortown.hackclub.com" target="_blank" class="link-btn">
+                            Flavortown
+                        </a>
+                        <a href="https://notebooklm.google.com" target="_blank" class="link-btn">
+                            NotebookLM
+                        </a>
+                    </div>
+                </div>
+            </section>
+        </main>
+    </div>
+
+    <!-- Toast Notifiche -->
+    <div id="toast" class="toast"></div>
+
+    <script src="options.js"></script>
+</body>
+
+</html>
