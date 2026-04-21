@@ -1,0 +1,87 @@
+.fve-star-wrapper {
+    display: flex;
+    align-items: center;
+    gap: 4px;
+    padding: 8px;
+    background: rgba(99, 102, 241, 0.05);
+    border-radius: 6px;
+    margin: 8px 0;
+}
+
+
+/* singola stella */
+.fve-star {
+    font-size: 24px;
+    cursor: pointer;
+    opacity: 0.4;
+    transition: opacity 0.1s, transform 0.1s;
+}
+
+/* stella attiva */
+.fve-star--active {
+    opacity: 1;
+    transform: scale(1.1);
+}
+
+
+.fve-star:hover {
+    transform: scale(1.15);
+}
+
+
+.fve-score-label {
+    font-weight: bold;
+    color: #6366f1;
+    font-size: 18px;
+    min-width: 30px;
+    text-align: center;
+}
+
+/* Indicatore "Draft restored" */
+.fte-saved {
+    background: #22c55e;
+    color: white;
+    padding: 8px 12px;
+    border-radius: 6px;
+    font-size: 13px;
+    margin-bottom: 12px;
+    opacity: 0;
+    transition: opacity 0.3s;
+}
+
+.fte-saved.show {
+    opacity: 1;
+}
+
+
+/* ai hints */
+.fve-ai-hint {
+    font-size: 11px;
+    color: #9ca3af;
+    margin-top: 4px;
+    font-style: italic;
+    display: none;
+}
+
+.fve-ai-hint.show {
+    display: block
+}
+
+.fve-preview-score {
+    background: rgba(99, 102, 241, 0.1);
+    border: 1px solid #6366f1;
+    color: #e5e7eb;
+    font-size: 13px;
+    padding: 8px;
+    border-radius: 6px;
+    margin-bottom: 8px;
+}
+
+.fve-preview-bar {
+    height: 4px;
+    background: #6366f1;
+    border-radius: 2px;
+    margin-top: 4px;
+    width: 0%;
+    transition: width 0.2s;
+}
