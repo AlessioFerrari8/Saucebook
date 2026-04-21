@@ -57,3 +57,152 @@ async function loadDashboard() {
     const latestDate = latest ? new Date(latest.savedAt).toLocaleDateString() : '-'
     document.getElementById('stat-latest').textContent = latestDate;
 }
+
+
+// carica bozze in storage tab
+async function loadDraftsList() {
+    const result = await chrome.storage.local.get('fve_drafts')
+    const drafts = result['fve_drafts'] || {};
+    const list = document.getElementById('drafts-list')
+
+    // se non ce en sono
+    if (Object.keys(drafts).length === 0) {
+        list.innerHTML = '<p class="empty-state">No drafts saved</p>';
+        return
+    }
+
+    // mi costruisco 
+    list.innerHTML = '';
+    Object.entries(drafts).forEach(([id, draft]) => {
+        const date = new Date(draft.savedAt).toLocaleString();
+        const item = document.createElement('div')
+        item.className = 'draft-item'
+        item.innerHTML = `
+            <span>Project #${id}</span>
+            <small>${date}</small>
+            <button class="btn-delete-draft" data-id="${id}">Delete</button>
+        `;
+        list.appendChild(item)
+    })
+}
+
+
+// chiamo al caricamento della pagina
+loadDraftsList()
+
+
+// export all drafts as JSON
+document.getElementById('btn-export').addEventListener('click', async () => {
+    // solita procedura
+    const result = await chrome.storage.local.get('fve_drafts')
+    const drafts = result['fve_drafts'] || {}
+
+    // prendo data, blob e url
+    const data = JSON.stringify(drafts, null, 2)
+    const blob = new Blob([data], { type: 'application/json'})
+    const url = URL.createObjectURL(blob)
+
+    // creo l'elemento
+    const a = document.createElement('a')
+    a.href = url;
+    a.download = `saucebook-backup-${Date.now()}.json`
+    a.click()
+
+    URL.revokeObjectURL(url)
+    showToast('Backup downloaded', 'success')
+})
+
+
+// delete all drafts
+document.getElementById('btn-clear-all').addEventListener('click', async () => {
+    // chiedo conferma
+    if (!confirm('Delete ALL drafts? This cannot be undone')) return;
+
+    await chrome.storage.local.set({ 'fve_drafts': {} })
+    await loadDraftsList()
+    await loadDashboard()
+
+    showToast('All drafts deleted', 'success')
+})
+
+
+// drive info
+async function loadDriveInfo() {
+    const result = await chrome.storage.local.get('folderId')
+    const folderId = result['folderId']
+
+    document.getElementById('drive-status').textContent =
+        folderId ? 'Connected' : 'Not connected';
+    
+    document.getElementById('drive-folder-id').textContent =
+        folderId || '-';
+
+    // file count placeholder
+    document.getElementById('drive-file-count').textContent = '-'
+    
+}
+
+// chiamo al caricamento
+loadDriveInfo()
+
+
+async function loadAuthStatus() {
+    chrome.identity.getAuthToken({ interactive: false }, (token) => {
+        const status = token ? 'Connected' : 'Not connected'
+        document.getElementById('auth-status').textContent = status;
+
+        // placeholder x email e date
+        document.getElementById('auth-email').textContent =
+            token ? 'logged-in' : '-'
+        document.getElementById('auth-since').textContent = '-'
+    })
+}
+
+
+// chiamo al caricamento
+loadAuthStatus()
+
+
+
+// open drive folder
+document.getElementById('btn-open-drive').addEventListener('click', async () => {
+    // solita procedura
+    const result = await chrome.storage.local.get('folderId')
+    const folderId = result['folderId']
+
+    // se non è cnnnes
+    if (!folderId) {
+        showToast('Folder not connected', 'error')
+        return;
+    }
+
+    // creo
+    chrome.tabs.create({
+        url: `https://drive.google.com/drive/folders/${folderId}`
+    })
+})
+
+
+// reset ref folder
+document.getElementById('btn-reset-folder').addEventListener('click', async () => {
+    await chrome.storage.local.remove('folderId')
+    await loadDriveInfo()
+    // messaggio
+    showToast('Folder reset', 'success')
+})
+
+
+// disconnect google
+document.getElementById('btn-disconnect').addEventListener('click', async () => {
+    chrome.identity.getAuthToken({ interactive: false }, (token) => {
+        if (!token) return
+        
+
+        fetch(`https://accounts.google.com/o/oauth2/revoke?token=${token}`)
+            .finally(() => {
+                chrome.identity.removeCachedAuthToken({ token })
+                loadAuthStatus()
+                showToast('Disconnected', 'success')
+            })
+    })
+})
