@@ -162,23 +162,22 @@ async function uploadVoteData(voteData, projectId) {
 }
 
 
+// carico il file drive-api.js
+
 // funzione chiamata quando arriva UPLOAD_VOTE
 async function handleVoteUpload(payload) {
     try {
-        // carico data, mi salvo projectId
         const { projectId, ...voteData } = payload;
-
-        // carico il file
+        
+        // Usa le funzioni da drive-api.js
         const fileId = await uploadVoteData(voteData, projectId);
-
-        // salvo la ref
+        
+        // Salva riferimento
         await chrome.storage.local.set({ [`drive_${projectId}`]: fileId });
-
-        return { success: true, fileId }
+        
+        return { success: true, fileId };
     } catch (error) {
-        console.error('FVE: upload failed', error)
-
-        return { success: false, error: error.message }
+        console.error('FVE: upload failed', error);
+        return { success: false, error: error.message };
     }
 }
-
