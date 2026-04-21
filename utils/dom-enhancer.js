@@ -7,7 +7,7 @@ function setRating(container, category, value) {
     // mappa categoria -> field name
     const fieldMap = {
         originality: 'originality_score',
-        technicality: 'technicality_score',
+        technicality: 'technical_score',
         usability: 'usability_score',
         storytelling: 'storytelling_score'
     };
@@ -92,7 +92,7 @@ function updatePreview() {
 function collectVoteData() {
     return {
         originality: getSelectedScore('originality_score'),
-        technicality: getSelectedScore('technicality_score'),
+        technicality: getSelectedScore('technical_score'),
         usability: getSelectedScore('usability_score'),
         storytelling: getSelectedScore('storytelling_score'),
         feedback: document.querySelector('textarea[name="vote[reason]"]')?.value || ''
