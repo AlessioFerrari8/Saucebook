@@ -1,5 +1,6 @@
 // apertura popup
 document.addEventListener('DOMContentLoaded', () => {
+    updateDriveLinks();
     checkAuthStatus();
     loadDraftsList();
 
@@ -104,10 +105,19 @@ async function deleteDraftFromPopup(projectId) {
     await chrome.storage.local.set({ 'fve_drafts': drafts })
 }
 
+// prendo folderId dallo storage
+async function updateDriveLinks() {
+    const result = await chrome.storage.local.get('folderId')
+    const folderId = result.folderId;
+
+    if (folderId) {
+        document.getElementById('link-drive').href =
+            'https://drive.google.com/drive/folders/';
+    }
+}
+
 // link rapidi
 // TODO: agggiornare
-document.getElementById('link-drive').href =
-    'https://drive.google.com/drive/folders/';
 document.getElementById('link-notebook').href =
     'https://notebooklm.google.com/';
 
