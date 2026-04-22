@@ -28,13 +28,13 @@ fs.copyFileSync('manifest.json', './build/chrome/manifest.json')
 // freifox merge manifest base + il manifest per firefox
 const base = JSON.parse(fs.readFileSync('manifest.json'))
 const ff = JSON.parse(fs.readFileSync('manifest.firefox.json'))
-const ffManifest = { ...base, ...f };
+const ffManifest = { ...base, ...ff };
 
-copyDir('.', '.build/firefox')
+copyDir('.', './build/firefox')
 fs.writeFileSync(
-    '.build/firefox/manifst.json',
+    './build/firefox/manifest.json',
     JSON.stringify(ffManifest, null, 2)
 )
 
 // log
-console.log('Build competed -> build/chrome e build/firefox')
+console.log('Build completed -> build/chrome e build/firefox')
