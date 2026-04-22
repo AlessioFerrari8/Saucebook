@@ -112,12 +112,11 @@ async function updateDriveLinks() {
 
     if (folderId) {
         document.getElementById('link-drive').href =
-            'https://drive.google.com/drive/folders/';
+            `https://drive.google.com/drive/folders/${folderId}`;
     }
 }
 
 // link rapidi
-// TODO: agggiornare
 document.getElementById('link-notebook').href =
     'https://notebooklm.google.com/';
 

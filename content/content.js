@@ -235,7 +235,8 @@ function triggerAutoSave() {
     autoSaveTimer = setTimeout(() => {
         const projectId = getProjectId();
         const data = collectVoteData(); // usa collectVoteData che già esiste
-        saveDraft(projectId, data, data.feedback);
+        const { feedback, ...ratings } = data;
+        saveDraft(projectId, ratings, feedback);
         showSavedIndicator();
     }, 1000);
 }
