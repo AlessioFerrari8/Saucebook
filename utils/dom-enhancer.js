@@ -84,8 +84,19 @@ function showSavedIndicator() {
 function updatePreview() {
     // mi calcolo la media
     const avg = Object.values(state).reduce((a, b) => a + b, 0) / 4;
+
+    // aggiorno il testo
+    const scoreEl = document.getElementById('fve-preview-text')
+    if (scoreEl) {
+        scoreEl.textContent = `Avg: ${avg.toFixed(1)}/9`
+    }
+
+    // aggiorno barra con %
+    const barEl = document.getElementById('fve-preview-bar')
+    if (barEl) {
+        barEl.style.width = `${(avg / 9 ) * 100}%`
+    }
     console.log('Average score:', avg.toFixed(1));
-    // TODO: aggiornare DOM quando preview panel sarà aggiunto
 }
 
 // raccoglie tutti i dati del voto
@@ -144,4 +155,21 @@ function exportToDrive() {
 
 function showToast(message, type) {
     console.log(`[${type}]`, message)
+}
+
+
+function createPreviewPanel() {
+    // creo il container
+    const previewPanel = document.createElement('div')
+    previewPanel.id = 'fve-preview-panel'
+    previewPanel.className = 'fve-preview-panel'
+
+    // aggiungo HTML
+    previewPanel.innerHTML = `
+        <div class="fve-preview-score" id="fve-preview-text">Avg: -/9</div>
+        <div class="fve-preview-bar" id="fve-preview-bar"></div>
+    `
+
+    // aggiungo al form
+    document.querySelector('.vote-form').prepend(previewPanel)
 }
