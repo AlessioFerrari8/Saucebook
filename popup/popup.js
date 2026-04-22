@@ -1,5 +1,13 @@
 // apertura popup
 document.addEventListener('DOMContentLoaded', () => {
+    // load dark mode
+    chrome.storage.sync.get('darkMode', (result) => {
+        const isDarkMode = result.darkMode || false;
+        if (isDarkMode) {
+            document.body.classList.add('dark-mode')
+        }
+    })
+
     updateDriveLinks();
     checkAuthStatus();
     loadDraftsList();
@@ -119,5 +127,3 @@ async function updateDriveLinks() {
 // link rapidi
 document.getElementById('link-notebook').href =
     'https://notebooklm.google.com/';
-
-

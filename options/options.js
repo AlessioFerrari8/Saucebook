@@ -264,3 +264,6 @@ function applyDarkMode(isDark) {
         document.body.classList.remove('dark-mode')
     }
 }
+
+
+

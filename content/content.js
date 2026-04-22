@@ -11,6 +11,14 @@ if (isVotePage()) {
 
 // DOM ehnancer -> sostituisce tutte le stelle con UI interattiva
 function enhanceVoteUI() {
+    // load dark mode
+    chrome.storage.sync.get('darkMode', (result) => {
+        const isDarkMode = result.darkMode || false;
+        if (isDarkMode) {
+            document.body.classList.add('fve-dark-mode')
+        }
+    })
+
     // 4 categorie
     const categories = document.querySelectorAll('[data-controller="vote-category"]')
     
