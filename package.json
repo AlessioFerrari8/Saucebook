@@ -4,7 +4,8 @@
   "description": "A repo for Flavortown to help you manage all your votes and reviews and send them to NotebookLM",
   "main": "index.js",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "build": "node script/build.js"
   },
   "repository": {
     "type": "git",
