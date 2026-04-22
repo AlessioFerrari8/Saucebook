@@ -43,7 +43,7 @@ async function loadDraft() {
 
     // restore
     restoreRatings(draft.ratings)
-    restoreFeedback(draft.feedback)
+    restoreFeedback(draft.notes)
 
     // avviso utente
     showRestoredIndicator()
