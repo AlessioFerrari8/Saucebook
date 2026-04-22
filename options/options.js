@@ -25,11 +25,6 @@ function showToast(message, type = 'info') {
 }
 
 
-// dashboard on init
-document.addEventListener('DOMContentLoaded', () => {
-    loadDashboard()
-})
-
 async function loadDashboard() {
     const result = await chrome.storage.local.get('fve_drafts')
     const drafts = result['fve_drafts'] || {}
@@ -235,3 +230,37 @@ document.getElementById('btn-connect').addEventListener('click', async () => {
         }
     });
 });
+
+
+
+// dark mode
+const darkModeToggle = document.getElementById('dark-mode-toggle')
+
+// saved preference on init
+document.addEventListener('DOMContentLoaded', () => {
+    // prendo dark mode e applico modifiche
+    chrome.storage.sync.get('darkMode', (result) => {
+        const isDarkMode = result.darkMode || false
+        darkModeToggle.checked = isDarkMode
+        applyDarkMode(isDarkMode)
+    })
+
+    // event change
+    darkModeToggle.addEventListener('change', (e) => {
+        const isDarkMode = e.target.checked;
+        chrome.storage.sync.set({ darkMode: isDarkMode })
+        applyDarkMode(isDarkMode)
+    })
+
+
+    // dal precedente onInit
+    loadDashboard()
+})
+
+function applyDarkMode(isDark) {
+    if (isDark) {
+        document.body.classList.add('dark-mode')
+    } else {
+        document.body.classList.remove('dark-mode')
+    }
+}

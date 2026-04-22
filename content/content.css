@@ -111,3 +111,27 @@
     transform: scale(0.98)
 }
 
+/* dark mode */
+body.fve-dark-mode .fve-star-wrapper {
+    background: rgba(99, 102, 241, 0.1);
+    border-color: rgba(99, 102, 241, 0.3);
+}
+
+body.fve-dark-mode .fve-preview-panel {
+    background: rgba(99, 102, 241, 0.1);
+}
+
+
+body.fve-dark-mode .fve-preview-score {
+    background: rgba(99, 102, 241, 0.15);
+    color: #e5e7eb;
+    border-color: rgba(99, 102, 241, 0.3)
+}
+
+body.fve-dark-mode .fve-export-btn {
+    background: #3b82f6;
+}
+
+body.fve-dark-mode .fve-export-btn:hover {
+    background: #2563eb;
+}

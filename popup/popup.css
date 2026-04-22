@@ -65,3 +65,53 @@ button:hover {
   color: #6366f1;
   text-decoration: none;
 }
+
+
+/* dark mode */
+
+body.dark-mode {
+  background: #1e1e1e;
+  color: #e5e7eb;
+}
+
+body.dark-mode .fve-header {
+  background: #2d2d2d;
+  border-bottom-color: #444;
+}
+
+body.dark-mode .fve-auth {
+  border-bottom-color: #444;
+}
+
+body.dark-mode #auth-status {
+  color: #9ca3af;
+}
+
+body.dark-mode button {
+  background: #3b82f6;
+  color: white;
+  border-color: #444;
+}
+
+body.dark-mode button:hover {
+  background: #2563eb;
+}
+
+body.dark-mode .fve-draft-item {
+  background: #2d2d2d;
+  border-color: #444;
+  color: #e5e7eb;
+}
+
+body.dark-mode .fve-footer {
+  background: #2d2d2d;
+  border-top-color: #444;
+}
+
+body.dark-mode a {
+  color: #60a5fa;
+}
+
+body.dark-mode a:hover {
+  color: #93c5fd
+}
