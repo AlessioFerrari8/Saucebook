@@ -9,7 +9,7 @@
 
 <body>
     <header class="fve-header">
-        <h1>Saucebook</h1>
+        <h1>Saucebook<span id="draft-count" class="badge">0</span></h1>
         <span class="fve-subtitle">Vote enhancer</span>
         <span class="fve-version">v1.0</span>
     </header>
@@ -25,6 +25,15 @@
         <h2>Drafts saved</h2>
         <div id="drafts-list" hidden>No drafts</div>
     </section>
+
+    <!-- stats badge -->
+    <section class="fve-stats-badge">
+        <div class="stat-badge">
+            <span class="stat-label">Avg Score</span>
+            <span class="stat-value" id="popup-avg-score">-</span>
+        </div>
+    </section>
+
 
     <!-- link rapidi -->
     <footer class="fve-footer">

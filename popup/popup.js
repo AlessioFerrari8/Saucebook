@@ -8,6 +8,7 @@ document.addEventListener('DOMContentLoaded', () => {
         }
     })
 
+    updateAverageScore()
     updateDriveLinks();
     checkAuthStatus();
     loadDraftsList();
@@ -74,6 +75,8 @@ async function loadDraftsList() {
     list.hidden = false; // Mostra l'elemento
 
     const keys = Object.keys(drafts)
+    document.getElementById('draft-count').textContent = keys.length;
+    
     if (keys.length === 0) {
         list.textContent = 'No drafts saved'
         return
@@ -127,3 +130,26 @@ async function updateDriveLinks() {
 // link rapidi
 document.getElementById('link-notebook').href =
     'https://notebooklm.google.com/';
+
+
+
+async function updateAverageScore() {
+    // solita procedura
+    const result = await chrome.storage.local.get('fve_drafts')
+    const drafts = result['fve_drafts'] || {}
+
+
+    // calcolo
+    let total = 0, count = 0
+    Object.values(drafts).forEach(draft => {
+        if (draft.ratings) {
+            const avg = Object.values(drafts.ratings).reduce((a, b) => a + b, 0) / 4;
+            total += avg;
+            count++;
+        }
+    })
+
+    const avgScore = count > 0 ? (total / count).toFixed(1) : '-'
+    document.getElementById('popup-avg-score').textContent = avgScore;
+}
+

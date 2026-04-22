@@ -135,3 +135,33 @@ body.fve-dark-mode .fve-export-btn {
 body.fve-dark-mode .fve-export-btn:hover {
     background: #2563eb;
 }
+
+
+@keyframes pulse-save {
+    0%, 100% {
+        opacity: 1;
+        transform: scale(1);
+    }
+
+    50% {
+        opacity: 0.8;
+        transform: scale(1.05);
+    }
+}
+
+.fve-saved.show {
+    animation: pulse-save 0.6s ease-in-out;
+}
+
+
+.fve-star:hover {
+    transform: scale(1.15);
+    filter: drop-shadow(0 0 8px rgba(99, 192, 241, 0.6));
+    text-shadow: 0 0 8px rgba(99, 192, 241, 0.4)
+}
+
+.fve-star:active {
+    opacity: 1;
+    transform: scale(1.1);
+    filter: drop-shadow(0 0 6px rgba(99, 102, 241, 0.5))
+}

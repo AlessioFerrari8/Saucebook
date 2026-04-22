@@ -25,7 +25,7 @@ function copyDir(src, dest) {
 copyDir('.', './build/chrome')
 fs.copyFileSync('manifest.json', './build/chrome/manifest.json')
 
-// freifox merge manifest base + il manifest per firefox
+// firefox merge manifest base + il manifest per firefox
 const base = JSON.parse(fs.readFileSync('manifest.json'))
 const ff = JSON.parse(fs.readFileSync('manifest.firefox.json'))
 const ffManifest = { ...base, ...ff };

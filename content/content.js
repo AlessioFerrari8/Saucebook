@@ -204,8 +204,6 @@ function collectVoteData() {
     }
 }
 
-
-// TODO: da rivedere
 function getProjectId() {
     try {
         const tokenInput = document.querySelector('input[name="suggestion_token"]');
