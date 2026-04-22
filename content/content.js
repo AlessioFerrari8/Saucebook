@@ -39,6 +39,9 @@ function enhanceVoteUI() {
     loadDraft()
 }
 
+/**
+ * loads a draft
+ */
 async function loadDraft() {
     const projectId = getProjectId()
     // "caso base"
