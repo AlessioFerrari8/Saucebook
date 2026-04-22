@@ -187,6 +187,17 @@ for (let i = 1; i < 10; i++) {  // Change 10 to your desired max
 
 ---
 
+## Dark Mode
+
+Toggle dark mode in **Settings > Account & Appearance**
+
+Persists across:
+- Options page
+- Popup
+- Flavortown voting page
+
+**Saved in:** `chrome.storage.sync.darkMode`
+
 ## Known Issues
 
 - Google Drive sync may take 1-2 minutes to propagate
