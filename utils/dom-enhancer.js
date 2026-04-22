@@ -1,4 +1,9 @@
-// aggiorno voto quando clicco una stella
+/**
+ * Set ratings for each category
+ * @param {*} container - the html container
+ * @param {*} category - the category (there are 4)
+ * @param {*} value - the value of the vote
+ */
 function setRating(container, category, value) {
     // aggiorna state golable
     const key = category.toLowerCase()

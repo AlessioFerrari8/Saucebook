@@ -2,7 +2,11 @@
 // analizzo il testo del progetto e suggerisce punteggio
 
 
-// suggerisce un voto
+/**
+ * Suggest a score based on some words contained
+ * @param {*} projectText - the description of the project
+ * @returns - calculated scores
+ */
 function suggestScores(projectText) {
     const text = projectText.toLowerCase()
 

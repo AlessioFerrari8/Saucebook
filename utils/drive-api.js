@@ -18,7 +18,10 @@ function getAuthToken() {
 }
 
 
-// crea/trova cartella su drive
+/**
+ * Creates/finds folder on Drive
+ * @returns - the id of the folder
+ */
 async function ensureFolder() {
     try {
         // controllo se id è già saved

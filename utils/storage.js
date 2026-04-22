@@ -3,7 +3,13 @@ const STORAGE_KEY = 'fve_drafts';
 // chrome + firefox
 const ext = typeof browser !== 'undefined' ? browser : chrome;
 
-// funzione per salvare i draft
+/**
+ * Saves the user vote in LocalStorage
+ * @param {*} projectId - the id of the project
+ * @param {*} ratings - votes for the 4 categories
+ * @param {*} notes - user notes
+ * @returns {Promive<void>}
+ */
 async function saveDraft(projectId, ratings, notes) {
     const existing = await getDrafts();
 
