@@ -408,3 +408,62 @@ body {
         width: 100%;
     }
 }
+
+
+
+/* dark mode */
+body.dark-mode {
+    background: #1e1e1e;
+    color: #e5e7eb;
+}
+
+body.dark-mode .options-header {
+    background: #2d2d2d;
+    border-bottom-color: #444;
+}
+
+body.dark-mode .options-sidebar {
+    background: #252525;
+    border-right-color: #444;
+}
+
+
+body.dark-mode .tab-btn {
+    color: #9ca3af;
+}
+
+body.dark-mode .tab-btn.active {
+    color: #fff;
+    border-left-color: #6366f1;
+}
+
+body.dark-mode .stat-card {
+    background: #2d2d2d;
+    border-color: #444;
+}
+
+body.dark-mode input, 
+body.dark-mode textarea,
+body.dark-mode select {
+    background: #2d2d2d;
+    color: #e5e7eb;
+    border-color: #444;
+}
+
+body.dark-mode button:not(.btn-delete-draft) {
+    background: #3b82f6;
+    color: white;
+}
+
+body.dark-mode button:hover {
+    background: #2563eb;
+}
+
+body.dark-mode .draft-item {
+    background: #2d2d2d;
+    border-color: #444;
+}
+
+body.dark-mode .empty-state {
+    color: #9ca3af;
+}
