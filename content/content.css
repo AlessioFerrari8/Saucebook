@@ -85,3 +85,29 @@
     width: 0%;
     transition: width 0.2s;
 }
+
+.fve-preview-panel {
+    margin-bottom: 12px;
+}
+
+.fve-export-btn {
+    background: #3b82f6;
+    color: white;
+    border: none;
+    padding: 8px 16px;
+    border-radius: 6px;
+    cursor: pointer;
+    font-weight: 600;
+    font-size: 14px;
+    margin-left: 8px;
+    transition: background 0.2s;
+}
+
+.fve-export-btn:hover {
+    background: #2563eb;
+}
+
+.fve-export-btn:active {
+    transform: scale(0.98)
+}
+

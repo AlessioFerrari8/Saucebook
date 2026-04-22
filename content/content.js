@@ -13,6 +13,11 @@ if (isVotePage()) {
 function enhanceVoteUI() {
     // 4 categorie
     const categories = document.querySelectorAll('[data-controller="vote-category"]')
+    
+    // chiamo l'ai suggester
+    const projectText = document.body.innerText; 
+    const suggestions = suggestScores(projectText);
+
 
     categories.forEach(category => {
         const header = category.querySelector('.vote-category__header').textContent.trim();
@@ -23,6 +28,11 @@ function enhanceVoteUI() {
         // per ogni categoria chiamo l'imrpove delle star
         enhanceStarRating(category, header);
     })
+
+    addExportButton()
+
+    // preview panel
+    createPreviewPanel()
 
     // dopo aver costruito UI
     // carico bozza
@@ -133,9 +143,9 @@ function enhanceStarRating(container, category) {
 
 
     // AI
-    // const aiHint = document.createElement('div');
-    // aiHint.className = 'fve-ai-hint';
-    // wrapper.appendChild(aiHint);
+    const aiHint = document.createElement('div');
+    aiHint.className = 'fve-ai-hint';
+    wrapper.appendChild(aiHint);
 
     container.appendChild(wrapper);
 }
@@ -292,4 +302,24 @@ function updateStarDisplay(container, value) {
             star.classList.remove('fve-star--active');
         }
     })
+}
+
+
+function addExportButton() {
+    // creo bottone
+    const exportBtn = document.createElement('button')
+    exportBtn.id = 'fve-export-btn'
+    exportBtn.className = 'fve-export-btn'
+    exportBtn.textContent = 'Export to Drive'
+
+    // evento click
+    exportBtn.addEventListener('click', () => {
+        exportToDrive()
+    })
+
+    // lo aggiungo vicino al form submit
+    const submitBtn = document.querySelector('button')
+    if (submitBtn) {
+        submitBtn.parentElement.insertBefore(exportBtn, submitBtn)
+    }
 }
