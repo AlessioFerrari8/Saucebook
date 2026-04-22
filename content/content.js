@@ -36,7 +36,7 @@ async function loadDraft() {
 
     const result = await chrome.storage.local.get('fve_drafts')
     const drafts = result['fve_drafts'] || {}
-    const draft = result[projectId]
+    const draft = drafts[projectId]
 
     // nessuna bozza
     if (!draft) return;
