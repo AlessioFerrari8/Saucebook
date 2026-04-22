@@ -16,8 +16,14 @@
 ---
 ## Installation
 
-Just install the .crx file in the releases of the repo
-
+1. Go to the repo
+2. Go to releases
+3. Download the crx file
+4. Open `chrome://extensions/`
+5. Enable **Developer mode** (top right)
+6. Click **Load unpacked**
+7. Select the `build/chrome/` folder
+8. Done! Icon appears in your toolbar
 
 ### Local development
 #### Chrome
