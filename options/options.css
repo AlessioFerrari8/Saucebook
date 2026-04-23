@@ -352,6 +352,17 @@ body {
     color: var(--accent);
 }
 
+/* Lists styling */
+ol, ul {
+    margin-left: 20px;
+    margin-bottom: 12px;
+}
+
+li {
+    margin-bottom: 8px;
+    line-height: 1.6;
+}
+
 
 /* Media queries - Mobile */
 @media (max-width: 768px) {
