@@ -104,7 +104,7 @@ Saucebook needs a **Google Client ID** to work. Don't worry, it's easy and free!
 1. **Go back to Chrome** and click the **Saucebook** icon (top right of the search bar)
 2. In the popup that appears, click **"Connect Google"**
 3. The **"Account & Appearance"** page will open
-4. Go to the **"🔧 Google Setup (Required)"** section
+4. Go to the **"Google Setup (Required)"** section
 5. In the text field, **paste the Client ID** you copied in the previous step
 6. Click the blue **"Save"** button
 7. You'll see the message: **"Client ID configured"** (in green)
@@ -134,7 +134,7 @@ It's okay, you can change it anytime. Go to Saucebook options and update the Cli
 Go to Saucebook options, Account section, and click **"Disconnect Google"**. Then sign in again with the new account.
 
 ### "I get an error when trying to sync to Drive"
-Make sure you completed STEP 5️⃣. If the problem persists, try disconnecting and reconnecting your Google account.
+Make sure you completed STEP 5. If the problem persists, try disconnecting and reconnecting your Google account.
 
 ### "Can I use Saucebook on Firefox?"
 Yes! Use the Firefox version, but follow steps 2-5 the same way.
@@ -151,7 +151,7 @@ Download it from the [GitHub Releases page](https://github.com/AlessioFerrari8/S
 ## Troubleshooting
 
 ### Error: "Client ID not configured"
-**Solution:** Go to STEP 5️⃣ and make sure you paste the Client ID correctly.
+**Solution:** Go to STEP 5 and make sure you paste the Client ID correctly.
 
 ### Error: "OAuth2 authentication failed"
 **Solution:** 
@@ -162,7 +162,7 @@ Download it from the [GitHub Releases page](https://github.com/AlessioFerrari8/S
 ### The extension doesn't work on Flavortown
 **Solution:**
 1. Reload the page (`Ctrl+R` or `Cmd+R`)
-2. Make sure you completed STEP 5️⃣
+2. Make sure you completed STEP 5
 3. Try disabling and re-enabling the extension in `chrome://extensions`
 
 ---
