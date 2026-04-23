@@ -1,21 +1,68 @@
 const FOLDER_NAME = "Saucebook"
 
-// ottengo token google
-function getAuthToken() {
-    // promise
-    return new Promise((resolve, reject) => {
-        chrome.identity.getAuthToken( { interactive: true }, (token) => {
-            // se c'è un errore
-            if (chrome.runtime.lastError) {
-                console.error("FVE: auth error", chrome.runtime.lastError)
-                reject(chrome.runtime.lastError)
-                return;
-            }
-            // di base
-            resolve(token)
-        })
-    })
+// Ottiene il Client ID dal storage
+async function getClientId() {
+    const result = await chrome.storage.sync.get('googleClientId')
+    const clientId = result.googleClientId
+    
+    if (!clientId) {
+        throw new Error(
+            'Google Client ID not configured. Please go to Options and add your Client ID.'
+        )
+    }
+    return clientId
 }
+
+// OAuth2 manuale con launchWebAuthFlow
+async function getAuthTokenManual() {
+    try {
+        const clientId = await getClientId()
+        
+        // Check if token exists and is valid
+        const result = await chrome.storage.sync.get('googleAuthToken')
+        if (result.googleAuthToken) {
+            return result.googleAuthToken
+        }
+        
+        // Redirect URI per estensioni Chrome
+        const redirectUri = chrome.identity.getRedirectURL()
+        
+        // Build auth URL
+        const authUrl = new URL('https://accounts.google.com/o/oauth2/auth')
+        authUrl.searchParams.append('client_id', clientId)
+        authUrl.searchParams.append('response_type', 'token')
+        authUrl.searchParams.append('scope', 'https://www.googleapis.com/auth/drive.file')
+        authUrl.searchParams.append('redirect_uri', redirectUri)
+        
+        // Usa launchWebAuthFlow
+        const redirectedUrl = await chrome.identity.launchWebAuthFlow({
+            url: authUrl.toString(),
+            interactive: true
+        })
+        
+        // Estrai token dalla redirect URL
+        const url = new URL(redirectedUrl)
+        const token = url.searchParams.get('access_token')
+        
+        if (!token) {
+            throw new Error('OAuth2 authentication failed')
+        }
+        
+        // Salva token
+        await chrome.storage.sync.set({ googleAuthToken: token })
+        return token
+        
+    } catch (error) {
+        console.error("Auth error:", error)
+        throw error
+    }
+}
+
+// ottengo token google - versione aggiornata
+function getAuthToken() {
+    return getAuthTokenManual()
+}
+
 
 
 /**

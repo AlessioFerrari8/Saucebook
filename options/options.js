@@ -266,4 +266,43 @@ function applyDarkMode(isDark) {
 }
 
 
+// ===== GOOGLE CLIENT ID SETUP =====
+async function loadClientIdStatus() {
+    const result = await chrome.storage.sync.get('googleClientId')
+    const clientId = result.googleClientId
+    const statusEl = document.getElementById('client-id-status')
+    
+    if (clientId) {
+        document.getElementById('client-id-input').value = clientId
+        statusEl.innerHTML = `Client ID configured`
+        statusEl.style.color = '#2ecc71'
+    } else {
+        statusEl.innerHTML = `Client ID not configured`
+        statusEl.style.color = '#e74c3c'
+    }
+}
+
+// Salva Client ID
+document.getElementById('btn-save-client-id').addEventListener('click', async () => {
+    const clientId = document.getElementById('client-id-input').value.trim()
+    
+    if (!clientId) {
+        showToast('Please enter a Client ID', 'error')
+        return
+    }
+    
+    if (!clientId.includes('.apps.googleusercontent.com')) {
+        showToast('Invalid Client ID format', 'error')
+        return
+    }
+    
+    await chrome.storage.sync.set({ googleClientId: clientId })
+    showToast('Client ID saved successfully!', 'success')
+    await loadClientIdStatus()
+})
+
+// Load at page init
+document.addEventListener('DOMContentLoaded', () => {
+    loadClientIdStatus()
+})
 

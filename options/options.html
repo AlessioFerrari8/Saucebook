@@ -96,6 +96,34 @@
             <section class="tab-content" id="account">
                 <h2>Account & Appeareance</h2>
 
+                <div class="section-block">
+                    <h3>Google Setup (Required)</h3>
+                    <p style="color: #666; margin-bottom: 15px; font-size: 0.9em;">
+                        To use Saucebook, you need to create your own Google OAuth credentials. Follow these steps:
+                    </p>
+                    <ol style="margin: 15px 0; color: #555; line-height: 1.8;">
+                        <li>Go to <a href="https://console.cloud.google.com" target="_blank">Google Cloud Console</a></li>
+                        <li>Create a new project</li>
+                        <li>Enable "Google Drive API" (APIs & Services → Library → Search → Enable)</li>
+                        <li>Create OAuth 2.0 credentials:
+                            <ul style="margin: 8px 0 8px 20px;">
+                                <li>Credentials → Create Credentials → OAuth 2.0 Client ID</li>
+                                <li>Select "Chrome Extension" or "Chromium Extension"</li>
+                                <li>Enter Extension ID (from <code>chrome://extensions</code>)</li>
+                            </ul>
+                        </li>
+                        <li>Copy your <strong>Client ID</strong> and paste below</li>
+                    </ol>
+                </div>
+
+                <div class="section-block">
+                    <h3>Client ID Configuration</h3>
+                    <div style="display: flex; gap: 10px; margin-bottom: 15px;">
+                        <input type="text" id="client-id-input" placeholder="Paste your Client ID here..." style="flex: 1; padding: 10px; border: 1px solid #ddd; border-radius: 4px; font-family: monospace; font-size: 0.85em;">
+                        <button class="btn btn-primary" id="btn-save-client-id">Save</button>
+                    </div>
+                    <p id="client-id-status" style="font-size: 0.85em; color: #666;">-</p>
+                </div>
 
                 <div class="section-block">
                     <h3>Theme</h3>

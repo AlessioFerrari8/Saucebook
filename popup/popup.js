@@ -13,40 +13,30 @@ document.addEventListener('DOMContentLoaded', () => {
     checkAuthStatus();
     loadDraftsList();
 
-    // bttone di auth
+    // bttone di auth - apri options
     document.getElementById('btn-auth').addEventListener('click', () => {
-        chrome.identity.getAuthToken({ interactive: true }, (token) => {
-            if (token) showLoggedIn();
-        });
+        chrome.runtime.openOptionsPage();
     });
 
-
     // bottone di logout
-    // stesso procedimento sopra
-    document.getElementById('btn-logout').addEventListener('click', () => {
-        chrome.identity.getAuthToken({ interactive: false }, (token) => {
-            if (!token) return;
-            // revoco token
-            fetch(`https://accounts.google.com/o/oauth2/revoke?token=${token}`)
-                .finally(() => {
-                    chrome.identity.removeCachedAuthToken({ token })
-                    showLoggedOut() // mostro logged out
-                })
-        })
-
+    document.getElementById('btn-logout').addEventListener('click', async () => {
+        // Rimuovi token e Client ID
+        await chrome.storage.sync.remove('googleAuthToken')
+        showLoggedOut()
     })
-
 });
 
 async function checkAuthStatus() {
-    chrome.identity.getAuthToken({ interactive: false }, (token) => {
-        if (token) {
-            showLoggedIn();
-        } else {
-            showLoggedOut();
-        }
-    });
+    const result = await chrome.storage.sync.get('googleAuthToken')
+    const token = result.googleAuthToken
+    
+    if (token) {
+        showLoggedIn();
+    } else {
+        showLoggedOut();
+    }
 }
+
 
 function showLoggedIn() {
     // aggiorno la scritta
