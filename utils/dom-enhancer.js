@@ -100,7 +100,7 @@ function updatePreview() {
 
     // aggiorno il testo
     if (scoreEl) {
-        const displayText = avg > 0 ? `Avg: ${avg.toFixed(1)}/9` : 'Media: -/9';
+        const displayText = avg > 0 ? `Avg: ${avg.toFixed(1)}/9` : 'Avg: -/9';
         scoreEl.textContent = displayText;
         console.log('FVE: updatePreview - text set to:', displayText);
     }

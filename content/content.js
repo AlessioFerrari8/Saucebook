@@ -340,7 +340,7 @@ function createPreviewPanel() {
     
     const scoreDisplay = document.createElement('div');
     scoreDisplay.className = 'fve-preview-score';
-    scoreDisplay.textContent = 'Media: -/9';
+    scoreDisplay.textContent = 'Avg: -/9';
     
     const bar = document.createElement('div');
     bar.className = 'fve-preview-bar';
