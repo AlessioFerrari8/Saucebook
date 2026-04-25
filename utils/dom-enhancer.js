@@ -1,3 +1,6 @@
+// global state per i rating
+let state = { originality: 0, technicality: 0, usability: 0, storytelling: 0 };
+
 /**
  * Set ratings for each category
  * @param {*} container - the html container
@@ -8,6 +11,7 @@ function setRating(container, category, value) {
     // aggiorna state golable
     const key = category.toLowerCase()
     state[key] = value;
+    console.log('FVE: setRating - Updated state:', state);
 
     // mappa categoria -> field name
     const fieldMap = {
@@ -17,16 +21,16 @@ function setRating(container, category, value) {
         storytelling: 'storytelling_score'
     };
 
-    // click radio button
+    // click radio button (se il container è il div wrapper con input)
     const fieldName = fieldMap[key];
     const input = document.querySelector(
         `input[name="vote[${fieldName}]"][value="${value}"]`
     )
 
-    if (input) input.click()
-
-    // aggiorna visual stelle
-    updateStarDisplay(container, value)
+    if (input) {
+        input.click()
+        console.log('FVE: setRating - Clicked radio button for', key, 'value:', value);
+    }
 
     // salvo auto e aggiorna preview
     triggerAutoSave()
@@ -88,21 +92,25 @@ function showSavedIndicator() {
 
 // aggiorno la preview della media
 function updatePreview() {
-    // mi calcolo la media
-    const avg = Object.values(state).reduce((a, b) => a + b, 0) / 4;
+    // mi calcolo la media - filtrando null e undefined
+    const values = Object.values(state).filter(v => v !== null && v !== undefined && v !== 0);
+    const avg = values.length > 0 ? values.reduce((a, b) => a + b, 0) / 4 : 0;
     const scoreEl = document.querySelector('.fve-preview-score')
     const barEl = document.querySelector('.fve-preview-bar')
 
     // aggiorno il testo
     if (scoreEl) {
-        scoreEl.textContent = `Avg: ${avg.toFixed(1)}/9`
+        const displayText = avg > 0 ? `Avg: ${avg.toFixed(1)}/9` : 'Media: -/9';
+        scoreEl.textContent = displayText;
+        console.log('FVE: updatePreview - text set to:', displayText);
     }
 
     // aggiorno barra con %
     if (barEl) {
-        barEl.style.width = `${(avg / 9) * 100}%`
+        barEl.style.width = `${(avg / 9) * 100}%`;
+        console.log('FVE: updatePreview - bar width set to:', (avg / 9) * 100, '%');
     }
-    console.log('Average score:', avg.toFixed(1));
+    console.log('FVE: Average score:', avg.toFixed(1), 'state:', state);
 }
 
 // raccoglie tutti i dati del voto

@@ -126,49 +126,31 @@ function showRestoredIndicator() {
 
 function enhanceStarRating(container, category) {
     console.log('FVE: enhanceStarRating called for category:', category);
-    const originalInput = container.querySelector('input, select');
-    const wrapper = document.createElement('div');
-    wrapper.className = 'fve-star-wrapper';
-
-    // creo 9 stelle
-    for (let i = 1; i < 10; i++) {
-        const star = document.createElement('span')
-        star.className = 'fve-star'
-        star.dataset.value = i;
-        star.textContent = '⭐'
-        star.addEventListener('click', () => {
-            console.log('FVE: Star clicked with value:', i, 'category:', category);
-            setRating(wrapper, category, i);
-        });
-        star.addEventListener('mouseenter', () => previewRating(wrapper, i));
-        wrapper.appendChild(star);
+    
+    // Trovo tutti i radio button in questo container (uno per ogni stella 1-9)
+    const radios = container.querySelectorAll('input[type="radio"]');
+    console.log('FVE: Found', radios.length, 'radio buttons in', category);
+    
+    if (radios.length === 0) {
+        console.warn('FVE: No radio buttons found in category:', category);
+        return;
     }
 
-    // aggiungo label
-    // valroe numerico
-    const label = document.createElement('span');
-    label.className = 'fve-score-label';
-    label.textContent = '-';
-    wrapper.appendChild(label)
-
-    wrapper.addEventListener('mouseleave', () => {
-        const key = category.toLowerCase();
-        updateStarDisplay(wrapper, state[key]);
+    // Attacco event listener a ogni radio button
+    radios.forEach((radio, index) => {
+        const value = parseInt(radio.value) || (index + 1);
+        console.log('FVE: Radio', index, 'value:', value, 'category:', category);
+        
+        // Quando cambio il radio (click sulla stella)
+        radio.addEventListener('change', () => {
+            console.log('FVE: Radio changed! Value:', value, 'Category:', category);
+            setRating(container, category, value);
+        });
     });
 
-
-    // AI
-    const aiHint = document.createElement('div');
-    aiHint.className = 'fve-ai-hint';
-    wrapper.appendChild(aiHint);
-
-    container.appendChild(wrapper);
     console.log('FVE: enhanceStarRating finished for:', category);
 }
 
-const state = { originality: 0, technicality: 0, usability: 0, storytelling: 0 };
-
-// function updatePreview() {
 //     console.log('FVE: updatePreview called');
 //     const avg = Object.values(state).reduce((a, b) => a + b, 0) / 4;
 //     console.log('FVE: calculated avg =', avg.toFixed(1));
