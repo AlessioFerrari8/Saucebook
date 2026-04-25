@@ -78,13 +78,13 @@ async function ensureFolder() {
         // altrimenti cerca la cartella
         const token = await getAuthToken()
         const query = encodeURIComponent(
-            `name='${FOLDER_NAME}' application/vnd.google-apps.folder' and trashed=false`
+            `name='${FOLDER_NAME}' and mimeType='application/vnd.google-apps.folder' and trashed=false`
         )
 
         // res search
         const searchRes = await fetch(
             `https://www.googleapis.com/drive/v3/files?q=${query}`,
-            { headers: { Authorization: "Bearer" + token } }
+            { headers: { Authorization: "Bearer " + token } }
         )
 
         const searchData = await searchRes.json()
@@ -112,8 +112,8 @@ async function ensureFolder() {
         );
 
         // creo e ritorno id
-        const createData = await createRes.JSON()
-        await chrome.storage.local.set({ folderid: createData.id })
+        const createData = await createRes.json()
+        await chrome.storage.local.set({ folderId: createData.id })
         return createData.id;
     } catch (error) {
         console.error('FVE: ensureFolder failed', error)

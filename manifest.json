@@ -6,13 +6,19 @@
     "permissions": [
         "storage",
         "identity",
-        "activeTab"
+        "activeTab",
+        "tabs"
     ],
+    "oauth2": {
+        "client_id": "1042505452804-p5r6t7tf3rl98u6j1fvrbojujd905r3t.apps.googleusercontent.com",
+        "scopes": [
+            "https://www.googleapis.com/auth/drive.file"
+        ]
+    },
     "host_permissions": [
         "https://flavortown.hackclub.com/*",
         "https://www.googleapis.com/*"
     ],
-
     "background": {
         "service_worker": "background/service-worker.js"
     },
@@ -24,6 +30,7 @@
             "js": [
                 "utils/storage.js",
                 "utils/ai-suggester.js",
+                "utils/dom-enhancer.js",
                 "content/content.js"
             ],
             "css": [

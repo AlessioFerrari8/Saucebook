@@ -12,10 +12,10 @@ function suggestScores(projectText) {
 
     // field
     let scores = {
-        originality: 0,
-        technicality: 0,
-        usability: 0,
-        storytelling: 0
+        originality: 5,
+        technicality: 5,
+        usability: 5,
+        storytelling: 5
     }
 
     // originality hints

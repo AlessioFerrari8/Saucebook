@@ -133,7 +133,7 @@ async function updateAverageScore() {
     let total = 0, count = 0
     Object.values(drafts).forEach(draft => {
         if (draft.ratings) {
-            const avg = Object.values(drafts.ratings).reduce((a, b) => a + b, 0) / 4;
+            const avg = Object.values(draft.ratings).reduce((a, b) => a + b, 0) / 4;
             total += avg;
             count++;
         }

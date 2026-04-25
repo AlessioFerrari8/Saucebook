@@ -125,6 +125,7 @@ function showRestoredIndicator() {
 
 
 function enhanceStarRating(container, category) {
+    console.log('FVE: enhanceStarRating called for category:', category);
     const originalInput = container.querySelector('input, select');
     const wrapper = document.createElement('div');
     wrapper.className = 'fve-star-wrapper';
@@ -135,8 +136,11 @@ function enhanceStarRating(container, category) {
         star.className = 'fve-star'
         star.dataset.value = i;
         star.textContent = '⭐'
-        star.addEventListener('click', () => setRating(container, category, i));
-        star.addEventListener('mouseenter', () => previewRating(container, i));
+        star.addEventListener('click', () => {
+            console.log('FVE: Star clicked with value:', i, 'category:', category);
+            setRating(wrapper, category, i);
+        });
+        star.addEventListener('mouseenter', () => previewRating(wrapper, i));
         wrapper.appendChild(star);
     }
 
@@ -159,18 +163,39 @@ function enhanceStarRating(container, category) {
     wrapper.appendChild(aiHint);
 
     container.appendChild(wrapper);
+    console.log('FVE: enhanceStarRating finished for:', category);
 }
 
 const state = { originality: 0, technicality: 0, usability: 0, storytelling: 0 };
 
-function updatePreview() {
-    const avg = Object.values(state).reduce((a, b) => a + b, 0) / 4;
-    // ancora da creare pannello nel DOM
-    //   document.querySelector('.fve-preview-score').textContent =
-    //     `Media: ${avg.toFixed(1)}/10`;
-    //   document.querySelector('.fve-preview-bar').style.width = `${avg / 9 * 100}%`;
-    console.log('Actual average:', avg.toFixed(1)); // test per ora
-}
+// function updatePreview() {
+//     console.log('FVE: updatePreview called');
+//     const avg = Object.values(state).reduce((a, b) => a + b, 0) / 4;
+//     console.log('FVE: calculated avg =', avg.toFixed(1));
+    
+//     const scoreEl = document.querySelector('.fve-preview-score');
+//     const barEl = document.querySelector('.fve-preview-bar');
+    
+//     console.log('FVE: scoreEl found?', scoreEl !== null);
+//     console.log('FVE: barEl found?', barEl !== null);
+    
+//     if (!scoreEl) {
+//         console.warn('FVE: .fve-preview-score not found!');
+//         // Log all divs to debug
+//         const allDivs = document.querySelectorAll('div');
+//         console.log('FVE: Total divs on page:', allDivs.length);
+//         const previewDivs = Array.from(allDivs).filter(d => d.className && d.className.includes('preview'));
+//         console.log('FVE: Divs with "preview" in class:', previewDivs.length, previewDivs);
+//         return;
+//     }
+    
+//     scoreEl.textContent = `Avg: ${avg.toFixed(1)}/9`;
+//     if (barEl) {
+//         barEl.style.width = `${avg / 9 * 100}%`;
+//     }
+    
+//     console.log('FVE: updatePreview completed, text updated to:', scoreEl.textContent);
+// }
 
 // campi radio
 // vote[originality_score]
@@ -186,42 +211,42 @@ function updatePreview() {
 // getSelectedScore('storytelling_score')
 
 
-// lettura voti
-function getSelectedScore(fieldName) {
-    const checked = document.querySelector(`input[name="vote[${fieldName}]"]:checked`)
-    return checked ? parseInt(checked.value) : null;
-}
+// // lettura voti
+// function getSelectedScore(fieldName) {
+//     const checked = document.querySelector(`input[name="vote[${fieldName}]"]:checked`)
+//     return checked ? parseInt(checked.value) : null;
+// }
 
 
-// raccolta dati
-function collectVoteData() {
-    return {
-        originality: getSelectedScore('originality_score'),
-        technicality: getSelectedScore('technical_score'),
-        usability: getSelectedScore('usability_score'),
-        storytelling: getSelectedScore('storytelling_score'),
-        feedback: document.querySelector('textarea[name="vote[reason]"]')?.value || ''
-    }
-}
+// // raccolta dati
+// function collectVoteData() {
+//     return {
+//         originality: getSelectedScore('originality_score'),
+//         technicality: getSelectedScore('technical_score'),
+//         usability: getSelectedScore('usability_score'),
+//         storytelling: getSelectedScore('storytelling_score'),
+//         feedback: document.querySelector('textarea[name="vote[reason]"]')?.value || ''
+//     }
+// }
 
-function getProjectId() {
-    try {
-        const tokenInput = document.querySelector('input[name="suggestion_token"]');
-        if (!tokenInput) return 'unknown';
+// function getProjectId() {
+//     try {
+//         const tokenInput = document.querySelector('input[name="suggestion_token"]');
+//         if (!tokenInput) return 'unknown';
 
-        // Il token è base64 prima del "--"
-        const base64 = tokenInput.value.split('--')[0];
-        const decoded = JSON.parse(atob(base64));
+//         // Il token è base64 prima del "--"
+//         const base64 = tokenInput.value.split('--')[0];
+//         const decoded = JSON.parse(atob(base64));
 
-        // decoded contiene: { user_id, ship_event_id, ua, expires_at }
-        return decoded.ship_event_id.toString();
-    } catch (error) {
-        console.warn("FVE: impossible reading project ID", error)
-        return 'unknown';
-    }
+//         // decoded contiene: { user_id, ship_event_id, ua, expires_at }
+//         return decoded.ship_event_id.toString();
+//     } catch (error) {
+//         console.warn("FVE: impossible reading project ID", error)
+//         return 'unknown';
+//     }
 
 
-}
+// }
 
 
 function showSavedIndicator() {
@@ -237,18 +262,18 @@ function showSavedIndicator() {
 }
 
 
-let autoSaveTimer;
+// let autoSaveTimer;
 
-function triggerAutoSave() {
-    clearTimeout(autoSaveTimer);
-    autoSaveTimer = setTimeout(() => {
-        const projectId = getProjectId();
-        const data = collectVoteData(); // usa collectVoteData che già esiste
-        const { feedback, ...ratings } = data;
-        saveDraft(projectId, ratings, feedback);
-        showSavedIndicator();
-    }, 1000);
-}
+// function triggerAutoSave() {
+//     clearTimeout(autoSaveTimer);
+//     autoSaveTimer = setTimeout(() => {
+//         const projectId = getProjectId();
+//         const data = collectVoteData(); // usa collectVoteData che già esiste
+//         const { feedback, ...ratings } = data;
+//         saveDraft(projectId, ratings, feedback);
+//         showSavedIndicator();
+//     }, 1000);
+// }
 
 // DRAFT manager -> salvo/carico bozze automaticamente
 
@@ -263,33 +288,37 @@ function exportToDrive() {
 }
 
 
-function setRating(container, category, value) {
-    // aggiorno state con nuovo valore
-    const key = category.toLowerCase();
-    state[key] = value;
+// function setRating(container, category, value) {
+//     console.log('FVE: setRating called with category:', category, 'value:', value);
+    
+//     // aggiorno state con nuovo valore
+//     const key = category.toLowerCase();
+//     state[key] = value;
+//     console.log('FVE: state updated:', state);
 
-    // radio button originale
-    const fieldMap = {
-        originality: 'originality_score',
-        technicality: 'technical_score',
-        usability: 'usability_score',
-        storytelling: 'storytelling_score'
-    }
+//     // radio button originale
+//     const fieldMap = {
+//         originality: 'originality_score',
+//         technicality: 'technical_score',
+//         usability: 'usability_score',
+//         storytelling: 'storytelling_score'
+//     }
 
-    // field con click
-    const fieldName = fieldMap[key];
-    const input = document.querySelector(
-        `input[name="vote[${fieldName}]"][value="${value}"]`
-    );
-    if (input) input.click();
+//     // field con click
+//     const fieldName = fieldMap[key];
+//     const input = document.querySelector(
+//         `input[name="vote[${fieldName}]"][value="${value}"]`
+//     );
+//     if (input) input.click();
 
-    // aggiorno stelle
-    updateStarDisplay(container, value);
+//     // aggiorno stelle
+//     updateStarDisplay(container, value);
 
-    // salvo e aggiorno preview
-    triggerAutoSave();
-    updatePreview();
-}
+//     // salvo e aggiorno preview
+//     triggerAutoSave();
+//     console.log('FVE: calling updatePreview()');
+//     updatePreview();
+// }
 
 
 // chiamata a hover di una stella
@@ -299,21 +328,53 @@ function previewRating(container, value) {
     updateStarDisplay(container, value)
 }
 
-function updateStarDisplay(container, value) {
-    // prendo tutte le stelle
-    const stars = container.querySelectorAll('.fve-star')
+// function updateStarDisplay(container, value) {
+//     // prendo tutte le stelle
+//     const stars = container.querySelectorAll('.fve-star')
 
-    // for each epr ogni stella
-    stars.forEach(star => {
-        if (parseInt(star.dataset.value) <= value) {
-            // aggiungo classe 
-            star.classList.add('fve-star--active');
-        } else {
-            star.classList.remove('fve-star--active');
-        }
-    })
+//     // for each epr ogni stella
+//     stars.forEach(star => {
+//         if (parseInt(star.dataset.value) <= value) {
+//             // aggiungo classe 
+//             star.classList.add('fve-star--active');
+//         } else {
+//             star.classList.remove('fve-star--active');
+//         }
+//     })
+// }
+
+
+function createPreviewPanel() {
+    console.log('FVE: createPreviewPanel() called');
+    const form = document.querySelector('.vote-form');
+    if (!form) {
+        console.warn('FVE: .vote-form not found!');
+        return;
+    }
+    console.log('FVE: .vote-form found, creating panel...');
+
+    const panel = document.createElement('div');
+    panel.className = 'fve-preview-panel';
+    
+    const scoreDisplay = document.createElement('div');
+    scoreDisplay.className = 'fve-preview-score';
+    scoreDisplay.textContent = 'Media: -/9';
+    
+    const bar = document.createElement('div');
+    bar.className = 'fve-preview-bar';
+    
+    panel.appendChild(scoreDisplay);
+    panel.appendChild(bar);
+    form.prepend(panel);
+    
+    console.log('FVE: Preview panel created successfully');
+    console.log('FVE: Panel element:', panel);
+    console.log('FVE: Score element class:', scoreDisplay.className);
+    
+    // Verify it was actually added
+    const verify = document.querySelector('.fve-preview-score');
+    console.log('FVE: Verification - .fve-preview-score exists after creation?', verify !== null);
 }
-
 
 function addExportButton() {
     // creo bottone

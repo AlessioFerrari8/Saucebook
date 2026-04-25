@@ -234,7 +234,7 @@ document.getElementById('btn-connect').addEventListener('click', async () => {
 
 
 // dark mode
-const darkModeToggle = document.getElementById('dark-mode-toggle')
+const darkModeToggle = document.querySelector('[name="dark-mode-toggle"]')
 
 // saved preference on init
 document.addEventListener('DOMContentLoaded', () => {

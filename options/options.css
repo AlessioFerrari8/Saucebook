@@ -478,3 +478,9 @@ body.dark-mode .draft-item {
 body.dark-mode .empty-state {
     color: #9ca3af;
 }
+
+
+
+#account {
+    margin-left: 15px;
+}

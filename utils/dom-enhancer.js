@@ -27,7 +27,7 @@ function setRating(container, category, value) {
 
     // aggiorna visual stelle
     updateStarDisplay(container, value)
-    
+
     // salvo auto e aggiorna preview
     triggerAutoSave()
     updatePreview()
@@ -65,7 +65,8 @@ function triggerAutoSave() {
         const projectId = getProjectId()
         const data = collectVoteData()
 
-        saveDraft(projectId, data.ratings, data.feedback)
+        const { feedback, ...ratings } = data; saveDraft(projectId, ratings, feedback)
+
         showSavedIndicator()
     }, 1000);
 }
@@ -89,17 +90,17 @@ function showSavedIndicator() {
 function updatePreview() {
     // mi calcolo la media
     const avg = Object.values(state).reduce((a, b) => a + b, 0) / 4;
+    const scoreEl = document.querySelector('.fve-preview-score')
+    const barEl = document.querySelector('.fve-preview-bar')
 
     // aggiorno il testo
-    const scoreEl = document.getElementById('fve-preview-text')
     if (scoreEl) {
         scoreEl.textContent = `Avg: ${avg.toFixed(1)}/9`
     }
 
     // aggiorno barra con %
-    const barEl = document.getElementById('fve-preview-bar')
     if (barEl) {
-        barEl.style.width = `${(avg / 9 ) * 100}%`
+        barEl.style.width = `${(avg / 9) * 100}%`
     }
     console.log('Average score:', avg.toFixed(1));
 }
@@ -118,7 +119,7 @@ function collectVoteData() {
 
 // leggo il voto selezionato per un field
 function getSelectedScore(field) {
-    const checked = document.querySelector(`input[name="vote[${field}]"]`)
+    const checked = document.querySelector(`input[name="vote[${field}]"]:checked`)
     return checked ? parseInt(checked.value) : null;
 }
 
@@ -129,7 +130,7 @@ function getProjectId() {
         const tokenInput = document.querySelector('input[name="suggestion_token"]')
         if (!tokenInput) return 'unknown'
 
-        const base64 = tokenInput.value.split('--')
+        const base64 = tokenInput.value.split('--')[0]
         const decoded = JSON.parse(atob(base64))
         return decoded.ship_event_id.toString()
     } catch (error) {
@@ -163,18 +164,18 @@ function showToast(message, type) {
 }
 
 
-function createPreviewPanel() {
-    // creo il container
-    const previewPanel = document.createElement('div')
-    previewPanel.id = 'fve-preview-panel'
-    previewPanel.className = 'fve-preview-panel'
+// function createPreviewPanel() {
+//     // creo il container
+//     const previewPanel = document.createElement('div')
+//     previewPanel.id = 'fve-preview-panel'
+//     previewPanel.className = 'fve-preview-panel'
 
-    // aggiungo HTML
-    previewPanel.innerHTML = `
-        <div class="fve-preview-score" id="fve-preview-text">Avg: -/9</div>
-        <div class="fve-preview-bar" id="fve-preview-bar"></div>
-    `
+//     // aggiungo HTML
+//     previewPanel.innerHTML = `
+//         <div class="fve-preview-score" id="fve-preview-text">Avg: -/9</div>
+//         <div class="fve-preview-bar" id="fve-preview-bar"></div>
+//     `
 
-    // aggiungo al form
-    document.querySelector('.vote-form').prepend(previewPanel)
-}
+//     // aggiungo al form
+//     document.querySelector('.vote-form').prepend(previewPanel)
+// }
